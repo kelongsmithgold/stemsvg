@@ -1,0 +1,100 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+import StepSvgExplainer from '../../../components/explainer/StepSvgExplainer.tsx';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+
+// Fix #9: SVG 从独立资源文件导入，页面文件不再嵌入百行 SVG 字符串
+import svgContent from '../../../assets/svg/math/triangle-angles.svg?raw';
+
+const title = '三角形内角和定理证明';
+
+// 面包屑导航数据（Fix #12）
+const breadcrumbs = [
+  { label: '首页', href: '/' },
+  { label: '题库', href: '/problems' },
+  { label: '数学', href: '/problems/math' },
+  { label: title }
+];
+
+// 定义分步讲解步骤
+const steps = [
+  {
+    id: 0,
+    label: '绘制三角形',
+    description: '作任意三角形 ABC，标记三个内角 ∠A、∠B、∠C',
+    layers: ['base', 'triangle', 'angles']
+  },
+  {
+    id: 1,
+    label: '延长底边',
+    description: '延长底边 BC 到点 D，为后续作辅助线做准备',
+    layers: ['base', 'triangle', 'angles', 'extension']
+  },
+  {
+    id: 2,
+    label: '作平行线',
+    description: '过顶点 A 作直线 EF，使 EF ∥ BC（平行公理保证唯一性）',
+    layers: ['base', 'triangle', 'angles', 'extension', 'parallel']
+  },
+  {
+    id: 3,
+    label: '识别同位角',
+    description: '由 EF ∥ BC，AB 为截线，∠1 与 ∠B 是同位角，故 ∠1 = ∠B',
+    layers: ['base', 'triangle', 'angles', 'extension', 'parallel', 'angle1']
+  },
+  {
+    id: 4,
+    label: '识别内错角',
+    description: '由 EF ∥ BC，AC 为截线，∠2 与 ∠C 是内错角，故 ∠2 = ∠C',
+    layers: ['base', 'triangle', 'angles', 'extension', 'parallel', 'angle1', 'angle2']
+  },
+  {
+    id: 5,
+    label: '得出结论',
+    description: '∠1 + ∠A + ∠2 构成平角（180°），代入得 ∠A + ∠B + ∠C = 180° ∎',
+    layers: ['base', 'triangle', 'angles', 'extension', 'parallel', 'angle1', 'angle2', 'conclusion']
+  }
+];
+---
+
+<MainLayout title={title} path="/problems/math/triangle-angles" description="分步动画演示利用平行线性质证明三角形内角和等于180度">
+  <article class="max-w-6xl mx-auto">
+    <!-- Fix #12: 面包屑导航 -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <h1 class="text-3xl font-bold mb-6">{title}</h1>
+
+    <!-- 定理陈述 -->
+    <div class="mb-8 p-6 bg-blue-50 rounded-xl border border-blue-200">
+      <h2 class="text-xl font-bold mb-2">定理</h2>
+      <p class="text-lg">三角形的三个内角之和等于 180°</p>
+    </div>
+
+    <!-- 分步讲解器 -->
+    <div class="my-8">
+      <StepSvgExplainer
+        title="分步证明过程"
+        steps={steps}
+        svgContent={svgContent}
+        client:load
+      />
+    </div>
+
+    <!-- 证明要点 -->
+    <div class="mt-8 p-6 bg-green-50 rounded-xl border border-green-200">
+      <h3 class="text-lg font-bold mb-3 text-green-800">证明要点</h3>
+      <ul class="space-y-2 text-green-900 list-disc list-inside">
+        <li><strong>辅助线：</strong>过顶点 A 作底边 BC 的平行线</li>
+        <li><strong>同位角：</strong>两直线平行，同位角相等（∠1 = ∠B）</li>
+        <li><strong>内错角：</strong>两直线平行，内错角相等（∠2 = ∠C）</li>
+        <li><strong>平角定义：</strong>直线上一点的单侧角等于 180°</li>
+      </ul>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="mt-10 flex justify-between items-center border-t border-gray-200 pt-6">
+      <a href="/problems/math" class="text-blue-600 hover:underline">← 返回数学题库</a>
+      <a href="/problems/math/quadratic-function" class="text-blue-600 hover:underline">下一题：二次函数 →</a>
+    </div>
+  </article>
+</MainLayout>

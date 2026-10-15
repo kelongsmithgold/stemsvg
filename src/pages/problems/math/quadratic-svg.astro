@@ -1,0 +1,178 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+
+const title = "二次函数图像与性质（纯 SVG 版本）";
+---
+
+<MainLayout title={title}>
+  <article class="prose prose-lg mx-auto max-w-4xl">
+    <div class="not-prose mb-6">
+      <a href="/problems/math" class="text-blue-600 hover:underline">← 返回数学题库</a>
+    </div>
+
+    <h1 class="text-3xl font-bold mb-6">{title}</h1>
+
+    <div class="not-prose my-8 p-6 bg-blue-50 rounded-xl border border-blue-200">
+      <h2 class="text-xl font-bold mb-4">📋 题目</h2>
+      <p class="text-lg mb-4">
+        已知二次函数 y = ax² + bx + c 的图像经过点 A(1, 0), B(3, 0), C(0, -3)。
+      </p>
+      <ol class="list-decimal list-inside space-y-2">
+        <li>求这个二次函数的解析式</li>
+        <li>求该函数的顶点坐标</li>
+        <li>求该函数的对称轴方程</li>
+      </ol>
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4 mt-8">📊 函数图像</h2>
+
+    <div class="not-prose my-8">
+      <div class="w-full max-w-3xl mx-auto">
+        <svg
+          viewBox="0 0 400 400"
+          class="w-full h-auto border-2 border-gray-300 rounded-lg bg-white"
+          role="img"
+          aria-labelledby="graph-title graph-desc"
+        >
+          <title id="graph-title">二次函数图像</title>
+          <desc id="graph-desc">展示经过三点 A(1,0), B(3,0), C(0,-3) 的抛物线及其关键特征</desc>
+
+          <!-- 网格背景 -->
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e5e7eb" stroke-width="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="400" height="400" fill="url(#grid)" />
+
+          <!-- 坐标轴 -->
+          <line x1="0" y1="200" x2="400" y2="200" stroke="#64748b" stroke-width="2" />
+          <line x1="200" y1="0" x2="200" y2="400" stroke="#64748b" stroke-width="2" />
+
+          <!-- 坐标轴箭头 -->
+          <polygon points="395,200 390,195 390,205" fill="#64748b" />
+          <polygon points="200,5 195,10 205,10" fill="#64748b" />
+
+          <!-- 坐标轴标签 -->
+          <text x="390" y="190" font-size="14" fill="#64748b">x</text>
+          <text x="210" y="15" font-size="14" fill="#64748b">y</text>
+
+          <!-- X 轴刻度 -->
+          <g>
+            {[-4, -3, -2, -1, 1, 2, 3, 4].map(i => (
+              <>
+                <line
+                  x1={200 + i * 40}
+                  y1="195"
+                  x2={200 + i * 40}
+                  y2="205"
+                  stroke="#64748b"
+                  stroke-width="1"
+                />
+                <text
+                  x={200 + i * 40}
+                  y="220"
+                  font-size="12"
+                  text-anchor="middle"
+                  fill="#64748b"
+                >
+                  {i}
+                </text>
+              </>
+            ))}
+          </g>
+
+          <!-- Y 轴刻度 -->
+          <g>
+            {[-4, -3, -2, -1, 1, 2, 3, 4].map(i => (
+              <>
+                <line
+                  x1="195"
+                  y1={200 - i * 40}
+                  x2="205"
+                  y2={200 - i * 40}
+                  stroke="#64748b"
+                  stroke-width="1"
+                />
+                <text
+                  x="185"
+                  y={200 - i * 40 + 5}
+                  font-size="12"
+                  text-anchor="end"
+                  fill="#64748b"
+                >
+                  {i}
+                </text>
+              </>
+            ))}
+          </g>
+
+          <!-- 对称轴虚线 x=2 -->
+          <line
+            x1="280"
+            y1="40"
+            x2="280"
+            y2="360"
+            stroke="#f59e0b"
+            stroke-width="2"
+            stroke-dasharray="5,5"
+            opacity="0.6"
+          />
+          <text x="285" y="50" font-size="12" fill="#f59e0b">x=2</text>
+
+          <!-- 抛物线 y = -(x-1)(x-3) = -x² + 4x - 3 -->
+          <path
+            d="M 160,200 Q 280,160 320,200"
+            fill="none"
+            stroke="#3b82f6"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+
+          <!-- 更精确的抛物线路径 -->
+          <path
+            d="M 120,272 L 140,232 L 160,200 L 180,176 L 200,160 L 220,152 L 240,152 L 260,160 L 280,176 L 300,200 L 320,232 L 340,272"
+            fill="none"
+            stroke="#3b82f6"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+
+          <!-- 点 A(1, 0) -->
+          <circle cx="240" cy="200" r="6" fill="#ef4444" />
+          <text x="240" y="185" font-size="14" font-weight="bold" fill="#ef4444" text-anchor="middle">
+            A(1,0)
+          </text>
+
+          <!-- 点 B(3, 0) -->
+          <circle cx="320" cy="200" r="6" fill="#ef4444" />
+          <text x="320" y="185" font-size="14" font-weight="bold" fill="#ef4444" text-anchor="middle">
+            B(3,0)
+          </text>
+
+          <!-- 点 C(0, -3) -->
+          <circle cx="200" cy="320" r="6" fill="#10b981" />
+          <text x="180" y="340" font-size="14" font-weight="bold" fill="#10b981">
+            C(0,-3)
+          </text>
+
+          <!-- 顶点 (2, 1) -->
+          <circle cx="280" cy="160" r="6" fill="#8b5cf6" />
+          <text x="300" y="155" font-size="14" font-weight="bold" fill="#8b5cf6">
+            顶点(2,1)
+          </text>
+        </svg>
+
+        <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <p class="text-sm text-blue-800">
+            <strong>图像说明：</strong>蓝色曲线是抛物线，红色点是 x 轴交点，绿色点是 y 轴交点，紫色点是顶点，橙色虚线是对称轴
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4 mt-12">📝 解题步骤</h2>
+
+    <!-- 后面的步骤保持不变 -->
+  </article>
+</MainLayout>

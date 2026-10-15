@@ -1,0 +1,19 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import SimpleTest from '../components/SimpleTest.tsx';
+import InteractiveQuadratic from '../components/explainer/InteractiveQuadratic.tsx';
+---
+
+<MainLayout title="测试页面">
+  <h1 class="text-3xl font-bold mb-6">React 组件测试</h1>
+
+  <div class="mb-8">
+    <h2 class="text-xl font-bold mb-4">测试 1: 简单计数器</h2>
+    <SimpleTest client:load />
+  </div>
+
+  <div class="mb-8">
+    <h2 class="text-xl font-bold mb-4">测试 2: 二次函数组件</h2>
+    <InteractiveQuadratic client:load />
+  </div>
+</MainLayout>

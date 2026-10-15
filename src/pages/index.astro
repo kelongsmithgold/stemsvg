@@ -1,0 +1,40 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="首页">
+  <div class="text-center py-20">
+    <h1 class="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+      STEM SVG
+    </h1>
+    <p class="text-xl text-gray-600 mb-12">
+      通过交互式动画学习数理化生
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+      <a href="/problems/math" class="p-8 bg-gray-100 rounded-xl hover:shadow-lg transition-all">
+        <div class="text-4xl mb-4">📐</div>
+        <h2 class="text-xl font-semibold mb-2">数学</h2>
+        <p class="text-sm text-gray-600">几何、代数、微积分</p>
+      </a>
+
+      <a href="/problems/physics" class="p-8 bg-gray-100 rounded-xl hover:shadow-lg transition-all">
+        <div class="text-4xl mb-4">⚛️</div>
+        <h2 class="text-xl font-semibold mb-2">物理</h2>
+        <p class="text-sm text-gray-600">力学、电磁、光学</p>
+      </a>
+
+      <a href="/problems/chemistry" class="p-8 bg-gray-100 rounded-xl hover:shadow-lg transition-all">
+        <div class="text-4xl mb-4">🧪</div>
+        <h2 class="text-xl font-semibold mb-2">化学</h2>
+        <p class="text-sm text-gray-600">有机、无机、分析</p>
+      </a>
+
+      <a href="/problems/biology" class="p-8 bg-gray-100 rounded-xl hover:shadow-lg transition-all">
+        <div class="text-4xl mb-4">🧬</div>
+        <h2 class="text-xl font-semibold mb-2">生物</h2>
+        <p class="text-sm text-gray-600">细胞、遗传、生态</p>
+      </a>
+    </div>
+  </div>
+</MainLayout>

@@ -1,0 +1,74 @@
+<svg viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="triangle-title" aria-describedby="triangle-desc">
+  <title id="triangle-title">三角形内角和定理证明</title>
+  <desc id="triangle-desc">分步展示利用平行线性质证明三角形三个内角之和等于180度的过程</desc>
+
+  <!-- 基础层：背景 -->
+  <g data-layer="base">
+    <rect width="680" height="420" fill="#f9fafb"/>
+  </g>
+
+  <!-- 三角形主体 -->
+  <g data-layer="triangle">
+    <polygon points="200,300 450,300 300,150" fill="none" stroke="#3b82f6" stroke-width="3"/>
+    <circle cx="200" cy="300" r="4" fill="#3b82f6"/>
+    <circle cx="450" cy="300" r="4" fill="#3b82f6"/>
+    <circle cx="300" cy="150" r="4" fill="#3b82f6"/>
+    <text x="190" y="320" font-size="18" font-weight="bold" fill="#1f2937">B</text>
+    <text x="455" y="320" font-size="18" font-weight="bold" fill="#1f2937">C</text>
+    <text x="295" y="140" font-size="18" font-weight="bold" fill="#1f2937">A</text>
+  </g>
+
+  <!-- 角度弧线标记 -->
+  <g data-layer="angles">
+    <path d="M 210,300 A 20,20 0 0,1 220,290" fill="none" stroke="#ef4444" stroke-width="2"/>
+    <path d="M 440,300 A 20,20 0 0,0 430,290" fill="none" stroke="#ef4444" stroke-width="2"/>
+    <path d="M 290,160 A 20,20 0 0,1 310,160" fill="none" stroke="#ef4444" stroke-width="2"/>
+    <text x="225" y="300" font-size="13" fill="#ef4444">∠B</text>
+    <text x="415" y="295" font-size="13" fill="#ef4444">∠C</text>
+    <text x="293" y="180" font-size="13" fill="#ef4444">∠A</text>
+  </g>
+
+  <!-- 延长线 BC→D -->
+  <g data-layer="extension">
+    <line x1="450" y1="300" x2="550" y2="300" stroke="#64748b" stroke-width="2" stroke-dasharray="5,5"/>
+    <circle cx="550" cy="300" r="4" fill="#64748b"/>
+    <text x="555" y="320" font-size="18" font-weight="bold" fill="#64748b">D</text>
+  </g>
+
+  <!-- 过 A 点的平行线 EF ∥ BC -->
+  <g data-layer="parallel">
+    <line x1="150" y1="150" x2="550" y2="150" stroke="#10b981" stroke-width="3"/>
+    <circle cx="150" cy="150" r="4" fill="#10b981"/>
+    <circle cx="550" cy="150" r="4" fill="#10b981"/>
+    <text x="135" y="145" font-size="18" font-weight="bold" fill="#10b981">E</text>
+    <text x="555" y="145" font-size="18" font-weight="bold" fill="#10b981">F</text>
+    <text x="320" y="130" font-size="14" fill="#10b981">EF ∥ BC</text>
+  </g>
+
+  <!-- ∠1 标记（同位角 = ∠B） -->
+  <g data-layer="angle1">
+    <path d="M 280,160 A 30,30 0 0,0 270,180" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+    <text x="248" y="178" font-size="16" font-weight="bold" fill="#f59e0b">∠1</text>
+    <text x="170" y="250" font-size="14" fill="#f59e0b">∵ EF ∥ BC，同位角相等</text>
+    <text x="170" y="270" font-size="14" fill="#f59e0b">∴ ∠1 = ∠B</text>
+  </g>
+
+  <!-- ∠2 标记（内错角 = ∠C） -->
+  <g data-layer="angle2">
+    <path d="M 320,160 A 30,30 0 0,1 330,180" fill="none" stroke="#8b5cf6" stroke-width="2.5"/>
+    <text x="334" y="178" font-size="16" font-weight="bold" fill="#8b5cf6">∠2</text>
+    <text x="350" y="250" font-size="14" fill="#8b5cf6">∵ EF ∥ BC，内错角相等</text>
+    <text x="350" y="270" font-size="14" fill="#8b5cf6">∴ ∠2 = ∠C</text>
+  </g>
+
+  <!-- 结论框 -->
+  <g data-layer="conclusion">
+    <rect x="130" y="345" width="420" height="58" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="8"/>
+    <text x="340" y="370" font-size="15" font-weight="bold" fill="#1e40af" text-anchor="middle">
+      ∠1 + ∠A + ∠2 = 180°（平角）
+    </text>
+    <text x="340" y="392" font-size="15" font-weight="bold" fill="#1e40af" text-anchor="middle">
+      ∴ ∠A + ∠B + ∠C = 180°  ∎
+    </text>
+  </g>
+</svg>

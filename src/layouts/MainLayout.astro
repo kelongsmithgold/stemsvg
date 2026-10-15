@@ -1,0 +1,115 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** 页面路径，用于 og:url 拼接（可选） */
+  path?: string;
+}
+
+const {
+  title,
+  description = '通过交互式 SVG 动画学习高中数理化生，分步解析重难点题目',
+  path = ''
+} = Astro.props;
+
+const siteTitle = `${title} | STEM SVG`;
+const siteUrl = 'https://stem.askingai.org';
+const fullUrl = `${siteUrl}${path}`;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- 基础 SEO -->
+    <title>{siteTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Fix #6: Open Graph / 社交分享元数据 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={fullUrl} />
+    <meta property="og:site_name" content="STEM SVG" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={siteTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Fix #6: Favicon（已有 public/favicon.svg 和 favicon.ico） -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- 规范链接 -->
+    <link rel="canonical" href={fullUrl} />
+  </head>
+  <body class="bg-white text-gray-900 min-h-screen flex flex-col">
+    <!-- Fix #6: 导航链接指向已存在的路由 -->
+    <header>
+      <nav class="border-b border-gray-200 bg-white/95 backdrop-blur-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
+            <a
+              href="/"
+              class="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors"
+              aria-label="STEM SVG 首页"
+            >
+              STEM SVG
+            </a>
+            <div class="flex gap-1 sm:gap-4" role="navigation" aria-label="主导航">
+              <!-- Fix #6: 改为 /problems/math 等实际存在的路由，/problems 总索引页将新建 -->
+              <a
+                href="/problems"
+                class="px-3 py-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors text-sm font-medium"
+              >
+                题库
+              </a>
+              <a
+                href="/knowledge"
+                class="px-3 py-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors text-sm font-medium"
+              >
+                知识点
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+      <slot />
+    </main>
+
+    <!-- Fix #6: 页脚 -->
+    <footer class="border-t border-gray-200 bg-gray-50 mt-auto">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+          <p>
+            © {new Date().getFullYear()} STEM SVG · 开源高中数理化生交互式学习平台
+          </p>
+          <div class="flex gap-4">
+            <a
+              href="https://github.com"
+              class="hover:text-gray-700 transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub 仓库（新窗口打开）"
+            >
+              GitHub
+            </a>
+            <a href="/problems" class="hover:text-gray-700 transition-colors">题库</a>
+            <a href="/knowledge" class="hover:text-gray-700 transition-colors">知识点</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

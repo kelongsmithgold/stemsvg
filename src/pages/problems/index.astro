@@ -1,0 +1,108 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+const subjects = [
+  {
+    name: '数学',
+    slug: 'math',
+    emoji: '📐',
+    color: 'blue',
+    description: '几何证明、函数图像、微积分、向量',
+    count: 2,
+    bgClass: 'bg-blue-50 border-blue-200 hover:border-blue-400',
+    badgeClass: 'bg-blue-100 text-blue-800',
+    textClass: 'text-blue-700'
+  },
+  {
+    name: '物理',
+    slug: 'physics',
+    emoji: '⚛️',
+    color: 'orange',
+    description: '力学模拟、光学实验、电磁场可视化',
+    count: 0,
+    bgClass: 'bg-orange-50 border-orange-200 hover:border-orange-400',
+    badgeClass: 'bg-orange-100 text-orange-800',
+    textClass: 'text-orange-700'
+  },
+  {
+    name: '化学',
+    slug: 'chemistry',
+    emoji: '🧪',
+    color: 'green',
+    description: '分子结构、反应机理、实验装置',
+    count: 0,
+    bgClass: 'bg-green-50 border-green-200 hover:border-green-400',
+    badgeClass: 'bg-green-100 text-green-800',
+    textClass: 'text-green-700'
+  },
+  {
+    name: '生物',
+    slug: 'biology',
+    emoji: '🧬',
+    color: 'purple',
+    description: '细胞结构、遗传图谱、生态系统',
+    count: 0,
+    bgClass: 'bg-purple-50 border-purple-200 hover:border-purple-400',
+    badgeClass: 'bg-purple-100 text-purple-800',
+    textClass: 'text-purple-700'
+  }
+];
+
+const totalCount = subjects.reduce((s, sub) => s + sub.count, 0);
+
+const breadcrumbs = [
+  { label: '首页', href: '/' },
+  { label: '题库' }
+];
+---
+
+<MainLayout
+  title="题库"
+  path="/problems"
+  description="高中数理化生交互式题库，每道题包含分步 SVG 动画解析"
+>
+  <div class="max-w-5xl mx-auto">
+    <Breadcrumb items={breadcrumbs} />
+
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold mb-3">题库</h1>
+      <p class="text-gray-600 text-lg">
+        共 <span class="font-semibold text-gray-900">{totalCount}</span> 道题目，
+        每题附带交互式 SVG 分步解析
+      </p>
+    </div>
+
+    <!-- 学科卡片网格 -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
+      {subjects.map(subject => (
+        <a
+          href={`/problems/${subject.slug}`}
+          class={`block p-6 rounded-xl border-2 transition-all ${subject.bgClass}`}
+          aria-label={`${subject.name}题库，共 ${subject.count} 道题目`}
+        >
+          <div class="flex items-start justify-between mb-3">
+            <div class="flex items-center gap-3">
+              <span class="text-4xl" aria-hidden="true">{subject.emoji}</span>
+              <div>
+                <h2 class={`text-xl font-bold ${subject.textClass}`}>{subject.name}</h2>
+                <p class="text-sm text-gray-500">{subject.description}</p>
+              </div>
+            </div>
+            <span class={`px-2 py-1 text-xs font-semibold rounded-full ${subject.badgeClass}`}>
+              {subject.count > 0 ? `${subject.count} 题` : '即将上线'}
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- 提示横幅 -->
+    <div class="p-6 bg-gray-50 rounded-xl border border-gray-200 text-center">
+      <p class="text-gray-600 text-sm">
+        💡 更多学科题目正在制作中。每道题均包含
+        <strong>交互式 SVG 图示</strong>和<strong>分步推导解析</strong>。
+      </p>
+    </div>
+  </div>
+</MainLayout>

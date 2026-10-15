@@ -1,0 +1,81 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+
+const breadcrumbs = [
+  { label: '首页', href: '/' },
+  { label: '题库', href: '/problems' },
+  { label: '数学' }
+];
+
+const mathProblems = [
+  {
+    title: '二次函数图像与性质',
+    slug: 'quadratic-function',
+    difficulty: '中等',
+    difficultyColor: 'bg-yellow-100 text-yellow-800',
+    tags: ['函数', '图像', '解析几何'],
+    description: '通过三个已知点确定二次函数解析式，实时拖拽观察顶点和对称轴变化'
+  },
+  {
+    title: '三角形内角和定理证明',
+    slug: 'triangle-angles',
+    difficulty: '基础',
+    difficultyColor: 'bg-green-100 text-green-800',
+    tags: ['几何', '证明', '平行线'],
+    description: '利用平行线性质（同位角、内错角），分步动画演示三角形内角和等于 180°'
+  }
+];
+---
+
+<MainLayout
+  title="数学题库"
+  path="/problems/math"
+  description="高中数学交互式题目解析，覆盖函数、几何、代数等重难点"
+>
+  <div class="max-w-5xl mx-auto">
+    <Breadcrumb items={breadcrumbs} />
+
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold mb-2 flex items-center gap-3">
+        <span aria-hidden="true">📐</span> 数学题库
+      </h1>
+      <p class="text-gray-600">共 {mathProblems.length} 道题目，每题附带交互式 SVG 分步解析</p>
+    </div>
+
+    <div class="grid gap-5">
+      {mathProblems.map(problem => (
+        <a
+          href={`/problems/math/${problem.slug}`}
+          class="group block p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:shadow-md transition-all"
+          aria-label={`${problem.title}，难度：${problem.difficulty}`}
+        >
+          <div class="flex justify-between items-start mb-2 gap-4">
+            <h2 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+              {problem.title}
+            </h2>
+            <span class={`flex-shrink-0 px-3 py-1 text-sm font-semibold rounded-full ${problem.difficultyColor}`}>
+              {problem.difficulty}
+            </span>
+          </div>
+
+          <p class="text-gray-600 mb-4 text-sm leading-relaxed">{problem.description}</p>
+
+          <div class="flex flex-wrap gap-2">
+            {problem.tags.map(tag => (
+              <span class="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded border border-blue-100">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-10 p-5 bg-blue-50 rounded-xl border border-blue-200">
+      <p class="text-blue-800 text-sm">
+        💡 更多数学题目正在制作中，即将覆盖<strong>三角函数、立体几何、概率统计</strong>等高频考点。
+      </p>
+    </div>
+  </div>
+</MainLayout>

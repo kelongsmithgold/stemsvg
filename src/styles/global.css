@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.math-container {
+  @apply p-6 bg-gray-100 rounded-lg;
+}
+
+.explainer-step {
+  @apply mb-6 pb-6 border-b border-gray-200 last:border-b-0;
+}
+
+.interactive-element {
+  @apply transition-all duration-200 hover:scale-105;
+}

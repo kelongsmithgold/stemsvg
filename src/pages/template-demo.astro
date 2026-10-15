@@ -1,0 +1,184 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { TemplateLoader, type Template } from '../lib/template-engine';
+
+// 导入模板数据
+const mathTemplate: Template = {
+  type: 'mathematics',
+  template_id: 'quadratic-function',
+  name: '二次函数图像交互',
+  description: '通过拖拽控制点调整抛物线形状',
+  svg_base: `
+    <svg viewBox="0 0 680 420" role="img">
+      <title>二次函数 y=ax²+bx+c</title>
+      <g data-layer="axis">
+        <line x1="40" y1="210" x2="640" y2="210" stroke="#64748b" stroke-width="2"/>
+        <line x1="340" y1="20" x2="340" y2="400" stroke="#64748b" stroke-width="2"/>
+      </g>
+      <g data-layer="parabola">
+        <path d="M 100,300 Q 340,{{vertex_y}} 580,300" fill="none" stroke="{{color:parabola}}" stroke-width="3"/>
+      </g>
+    </svg>
+  `,
+  steps: [
+    { step: 0, label: '基准坐标系', description: '绘制坐标轴', layers: ['axis'] },
+    { step: 1, label: '绘制抛物线', description: '根据参数绘制曲线', layers: ['axis', 'parabola'] }
+  ],
+  variables: {
+    vertex_y: { default: 100, range: [50, 300], step: 10 }
+  },
+  colors: {
+    parabola: '#3b82f6',
+    vertex: '#D55E00',
+    axis: '#1E293B'
+  }
+};
+
+const physicsTemplate: Template = {
+  type: 'physics',
+  template_id: 'convex-lens-imaging',
+  name: '凸透镜成像光路',
+  description: '显示物距、焦距变化时的光路追踪与成像规律',
+  svg_base: `
+    <svg viewBox="0 0 680 420" role="img">
+      <title>凸透镜成像原理</title>
+      <g data-layer="optical-axis">
+        <line x1="40" y1="210" x2="640" y2="210" stroke="#64748b" stroke-width="2"/>
+      </g>
+      <g data-layer="lens">
+        <ellipse cx="340" cy="210" rx="10" ry="100" fill="none" stroke="{{color:real-ray}}" stroke-width="3"/>
+      </g>
+    </svg>
+  `,
+  steps: [
+    { step: 0, label: '光学元件与光轴', description: '绘制透镜和光轴', layers: ['optical-axis', 'lens'] }
+  ],
+  variables: {
+    focal_length: { default: 10, range: [5, 20] },
+    object_distance: { default: 15, range: [0, 40] }
+  },
+  colors: {
+    'real-ray': '#0072B2',
+    'virtual-ray': '#E69F00',
+    'observer': '#009E73'
+  }
+};
+
+// 注册模板
+TemplateLoader.register(mathTemplate);
+TemplateLoader.register(physicsTemplate);
+
+// 获取所有模板
+const allTemplates = [mathTemplate, physicsTemplate];
+---
+
+<MainLayout title="模板系统演示">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">🎨 模板驱动系统</h1>
+
+    <div class="mb-8 p-6 bg-blue-50 rounded-xl border border-blue-200">
+      <h2 class="text-xl font-bold mb-2">系统简介</h2>
+      <p class="text-gray-700">
+        模板系统允许通过 JSON 配置快速生成交互式 SVG 图示，降低对 LLM 的依赖。
+        每个模板包含：步骤定义、变量配置、颜色方案、SVG 基础结构。
+      </p>
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4">📚 已注册模板</h2>
+
+    <div class="grid md:grid-cols-2 gap-6 mb-8">
+      {allTemplates.map(template => (
+        <div class="p-6 bg-white border border-gray-200 rounded-xl hover:shadow-lg transition-shadow">
+          <div class="flex items-start justify-between mb-4">
+            <div>
+              <div class="text-sm font-semibold text-blue-600 mb-1">
+                {template.type === 'mathematics' ? '📐 数学' :
+                 template.type === 'physics' ? '⚛️ 物理' :
+                 template.type === 'chemistry' ? '🧪 化学' : '🧬 生物'}
+              </div>
+              <h3 class="text-lg font-bold">{template.name}</h3>
+            </div>
+            <code class="text-xs bg-gray-100 px-2 py-1 rounded">
+              {template.template_id}
+            </code>
+          </div>
+
+          <p class="text-gray-600 text-sm mb-4">{template.description}</p>
+
+          <div class="space-y-2">
+            <div class="text-sm">
+              <strong>步骤数：</strong>{template.steps.length}
+            </div>
+
+            {template.variables && Object.keys(template.variables).length > 0 && (
+              <div class="text-sm">
+                <strong>可调参数：</strong>
+                <div class="flex flex-wrap gap-2 mt-1">
+                  {Object.keys(template.variables).map(key => (
+                    <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
+                      {key}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {template.colors && (
+              <div class="text-sm">
+                <strong>配色方案：</strong>
+                <div class="flex gap-2 mt-1">
+                  {Object.entries(template.colors).map(([name, color]) => (
+                    <div
+                      class="w-6 h-6 rounded border border-gray-300"
+                      style={`background-color: ${color}`}
+                      title={name}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4">💻 使用示例</h2>
+
+    <div class="bg-gray-900 text-gray-100 p-6 rounded-xl overflow-x-auto mb-8">
+      <pre class="text-sm"><code>{`import { TemplateLoader, TemplateEngine } from '@/lib/template-engine';
+
+// 1. 加载模板
+const engine = TemplateLoader.createEngine('quadratic-function');
+
+// 2. 设置参数
+engine.setVariable('vertex_y', 150);
+
+// 3. 渲染 SVG
+const svg = engine.renderSVG();
+
+// 4. 获取步骤信息
+const steps = engine.getSteps();`}</code></pre>
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4">📋 模板 JSON 结构</h2>
+
+    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 overflow-x-auto">
+      <pre class="text-sm"><code>{JSON.stringify(mathTemplate, null, 2)}</code></pre>
+    </div>
+
+    <div class="mt-8 p-6 bg-green-50 rounded-xl border border-green-200">
+      <h3 class="text-lg font-bold mb-2 text-green-800">✨ 优势</h3>
+      <ul class="space-y-2 text-green-900">
+        <li>✅ <strong>零 LLM 依赖：</strong>预定义模板直接使用</li>
+        <li>✅ <strong>高度可复用：</strong>同一模板生成多个变体</li>
+        <li>✅ <strong>易于维护：</strong>JSON 格式，版本控制友好</li>
+        <li>✅ <strong>类型安全：</strong>TypeScript 类型检查</li>
+        <li>✅ <strong>参数验证：</strong>自动检查变量范围</li>
+      </ul>
+    </div>
+
+    <div class="mt-6">
+      <a href="/" class="text-blue-600 hover:underline">← 返回首页</a>
+    </div>
+  </div>
+</MainLayout>
